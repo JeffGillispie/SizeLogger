@@ -9,8 +9,8 @@ namespace SizeLogger
 {
     public class FileLogger
     {
-        private static NLog.Logger fileLogger = LogManager.GetLogger("fileLogger");
-        private static NLog.Logger folderLogger = LogManager.GetLogger("folderLogger");
+        private static Logger fileLogger = LogManager.GetLogger("fileLogger");
+        private static Logger folderLogger = LogManager.GetLogger("folderLogger");
         private Dictionary<Type, int> lookup = new Dictionary<Type, int>() {
             { typeof(FileInfo), 0 },
             { typeof(ScanInfo), 1 }

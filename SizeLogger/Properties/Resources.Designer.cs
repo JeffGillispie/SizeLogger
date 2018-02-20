@@ -59,15 +59,5 @@ namespace SizeLogger.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to INSERT INTO FileSizeInfo (FilePath, FileSize, ErrorMessage, DateRecorded)
-        ///VALUES (@path, @size, @errorMessage, @dateRecorded).
-        /// </summary>
-        internal static string InsertScanInfo {
-            get {
-                return ResourceManager.GetString("InsertScanInfo", resourceCulture);
-            }
-        }
     }
 }

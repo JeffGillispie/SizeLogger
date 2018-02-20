@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SizeLogger;
 using Alphaleonis.Win32.Filesystem;
 
 namespace SizeLoggerTest
