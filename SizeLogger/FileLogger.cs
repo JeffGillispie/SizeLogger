@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using Alphaleonis.Win32.Filesystem;
 using NLog;
@@ -37,9 +38,13 @@ namespace SizeLogger
 
         public void ProcessFolder(string path)
         {
+            ProcessFolder(path, Properties.Settings.Default.SqlInsertBufferSize);            
+        }
+
+        public void ProcessFolder(string path, int batchSize)
+        {
             ConsoleSpinner spinner = new ConsoleSpinner();
-            Console.WriteLine("Scanning Items: " + path);
-            int batchSize = Properties.Settings.Default.SqlInsertBufferSize;
+            Console.WriteLine("Scanning Items: " + path);            
             var producer = new BatchBlock<object>(batchSize);
             var consumer = new ActionBlock<object[]>(items => {
                 LogItems(items);
@@ -53,7 +58,35 @@ namespace SizeLogger
             Console.WriteLine("Completed: All scanned items have been logged.");
         }
 
-        private void PostItems(ITargetBlock<object> target, string path)
+        public static void ProcessTest(string path)
+        {
+            FileScanner scanner = new FileScanner();
+
+            scanner.ItemScanned += ((sender, info) => {
+                folderLogger.Info($"{info.Path}|{info.Size}|1|{info.ErrorMessage}|{DateTime.Now}");
+            });
+
+            scanner.FileScanned += ((sender, info) => {
+                long size = 0;
+                string err = String.Empty;
+
+                try
+                {
+                    size = info.Length;
+                }
+                catch (Exception ex)
+                {
+                    err = ex.Message;
+                }
+
+                fileLogger.Info($"{info.FullName}|{size}|0|{err}|{DateTime.Now}");
+            });
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+            scanner.GetDirectorySize(dir);
+        }
+
+        public static void PostItems(ITargetBlock<object> target, string path)
         {
             FileScanner scanner = new FileScanner();
 
@@ -66,7 +99,38 @@ namespace SizeLogger
             });
 
             DirectoryInfo dir = new DirectoryInfo(path);
-            long size = scanner.GetDirectorySize(dir);            
+            scanner.GetDirectorySize(dir);            
+        }
+
+        public static async Task Consume(BufferBlock<object> queue)
+        {
+            while (await queue.OutputAvailableAsync())
+            {
+                object item = await queue.ReceiveAsync();
+
+                if (item.GetType().Equals(typeof(ScanInfo)))
+                {
+                    ScanInfo info = item as ScanInfo;
+                    folderLogger.Info($"{info.Path}|{info.Size}|1|{info.ErrorMessage}|{DateTime.Now}");
+                }
+                else
+                {
+                    FileInfo file = item as FileInfo;
+                    long size = 0;
+                    string err = String.Empty;
+
+                    try
+                    {
+                        size = file.Length;
+                    }
+                    catch (Exception ex)
+                    {
+                        err = ex.Message;
+                    }
+
+                    fileLogger.Info($"{file.FullName}|{size}|0|{err}|{DateTime.Now}");
+                }
+            }                        
         }
 
         private void LogItems(IEnumerable<object> scannedItems)
