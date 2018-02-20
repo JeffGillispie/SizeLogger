@@ -52,6 +52,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UT_FileLogger.cs" />
     <Compile Include="UT_Scanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

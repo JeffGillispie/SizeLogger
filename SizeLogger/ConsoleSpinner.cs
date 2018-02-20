@@ -18,7 +18,11 @@ namespace SizeLogger
                 case 3: Console.Write("|"); break;
             }
 
-            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            try
+            {
+                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            }
+            catch (Exception) { }
         }
     }
 }

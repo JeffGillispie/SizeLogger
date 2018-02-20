@@ -8,9 +8,17 @@ namespace SizeLogger
     {
         static void Main(string[] args)
         {            
-            string target = args.First();            
+            string target = args.First();
             FileLogger logger = new FileLogger();
-            logger.Log(target);                        
+            
+            if (FileUtil.IsFolder(target))
+            {
+                logger.ProcessFolder(target);
+            }
+            else
+            {
+                logger.ProcessFolderList(target);
+            }
         }        
     }
 }

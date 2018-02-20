@@ -16,7 +16,7 @@ namespace SizeLogger
             { typeof(ScanInfo), 1 }
         };
 
-        public void Log(string path)
+        public void ProcessFolderList(string path)
         {
             string[] locations = System.IO.File.ReadAllLines(path);
             Console.WriteLine(String.Format("Initiating processing of {0} locations.", locations.Length));
@@ -25,7 +25,7 @@ namespace SizeLogger
             foreach (string location in locations)
             {
                 counter++;
-                ProcessPath(location);
+                ProcessFolder(location);
                 Console.WriteLine(String.Format(
                     "Location {0} or {1} has been processed.{2}",
                     counter, locations.Length, Environment.NewLine));                
@@ -35,7 +35,7 @@ namespace SizeLogger
             Console.WriteLine("Processing Completed!");
         }
 
-        private void ProcessPath(string path)
+        public void ProcessFolder(string path)
         {
             ConsoleSpinner spinner = new ConsoleSpinner();
             Console.WriteLine("Scanning Items: " + path);
