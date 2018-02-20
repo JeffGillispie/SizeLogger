@@ -1,0 +1,10 @@
+.vs/
+packages/
+[Bb]in/
+[Oo]bj/
+[Rr]elease
+publish/
+[Tt]est[Rr]esults/
+
+*.suo
+*.user

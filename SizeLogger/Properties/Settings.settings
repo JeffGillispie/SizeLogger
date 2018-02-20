@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SizeLogger.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SqlServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">rlvdev01</Value>
+    </Setting>
+    <Setting Name="SqlDatabaseName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">VenioApps</Value>
+    </Setting>
+    <Setting Name="SqlConnectionTimeout" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="SqlInsertBufferSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
